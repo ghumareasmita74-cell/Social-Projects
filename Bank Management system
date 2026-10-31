@@ -1,0 +1,115 @@
+#include <stdio.h>
+
+struct Account {
+    int accountNumber;
+    char name[50];
+    float balance;
+};
+
+int main() {
+    struct Account acc;
+    int choice;
+    float amount;
+    int created = 0;
+
+    do {
+        printf("\n===== BANK MANAGEMENT SYSTEM =====\n");
+        printf("1. Create Account\n");
+        printf("2. Deposit Money\n");
+        printf("3. Withdraw Money\n");
+        printf("4. Check Balance\n");
+        printf("5. Account Details\n");
+        printf("6. Exit\n");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+            case 1:
+                if (created) {
+                    printf("\nAccount already exists!\n");
+                    break;
+                }
+
+                printf("\nEnter Account Number: ");
+                scanf("%d", &acc.accountNumber);
+
+                printf("Enter Account Holder Name: ");
+                scanf(" %49[^\n]", acc.name);
+
+                printf("Enter Initial Balance: ");
+                scanf("%f", &acc.balance);
+
+                if (acc.balance < 0) {
+                    printf("Invalid initial balance!\n");
+                    break;
+                }
+
+                created = 1;
+                printf("\nAccount created successfully!\n");
+                break;
+
+            case 2:
+                if (!created) {
+                    printf("\nCreate an account first!\n");
+                    break;
+                }
+
+                printf("\nEnter deposit amount: ");
+                scanf("%f", &amount);
+
+                if (amount > 0) {
+                    acc.balance += amount;
+                    printf("Money deposited successfully!\n");
+                } else {
+                    printf("Invalid amount!\n");
+                }
+                break;
+
+            case 3:
+                if (!created) {
+                    printf("\nCreate an account first!\n");
+                    break;
+                }
+
+                printf("\nEnter withdrawal amount: ");
+                scanf("%f", &amount);
+
+                if (amount > 0 && amount <= acc.balance) {
+                    acc.balance -= amount;
+                    printf("Withdrawal successful!\n");
+                } else {
+                    printf("Insufficient balance or invalid amount!\n");
+                }
+                break;
+
+            case 4:
+                if (created)
+                    printf("\nCurrent Balance: Rs. %.2f\n", acc.balance);
+                else
+                    printf("\nNo account found!\n");
+                break;
+
+            case 5:
+                if (created) {
+                    printf("\nAccount Number: %d\n", acc.accountNumber);
+                    printf("Account Holder: %s\n", acc.name);
+                    printf("Balance: Rs. %.2f\n", acc.balance);
+                } else {
+                    printf("\nNo account found!\n");
+                }
+                break;
+
+            case 6:
+                printf("\nThank you for banking with us!\n");
+                break;
+
+            default:
+                printf("\nInvalid choice! Try again.\n");
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
